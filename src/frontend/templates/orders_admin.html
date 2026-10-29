@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Orders{% endblock %}
+{% block content %}
+<section class="dashboard-top"><div><span class="eyebrow">ORDER TRACKING</span><h1>Every order, <em>in motion.</em></h1><p>Kitchen staff can update preparation status. Managers can oversee all orders.</p></div></section>
+<section class="section"><div class="panel"><div class="table-scroll"><table><thead><tr><th>Order</th><th>Customer</th><th>Type</th><th>Placed</th><th>Total</th><th>Status / Update</th></tr></thead><tbody>{% for o in orders %}<tr><td><b>#{{ o.id }}</b></td><td>{{ o.full_name or 'Guest' }}</td><td>{{ o.order_type }}</td><td>{{ o.created_at }}</td><td>₹{{ "%.2f"|format(o.total_amount) }}</td><td><span class="status status-{{ o.status }}">{{ o.status }}</span><form method="post" action="{{ url_for('order_status',oid=o.id) }}" class="inline-form status-form"><select name="status">{% for s in ['placed','confirmed','preparing','ready','served','cancelled'] %}<option value="{{ s }}" {% if o.status==s %}selected{% endif %}>{{ s }}</option>{% endfor %}</select><button class="btn btn-dark btn-sm">Update</button></form></td></tr>{% else %}<tr><td colspan="6">No orders yet.</td></tr>{% endfor %}</tbody></table></div></div></section>
+{% endblock %}

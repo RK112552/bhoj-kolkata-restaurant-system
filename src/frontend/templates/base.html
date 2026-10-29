@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171613">
+  <title>{% block title %}Bhoj Kolkata{% endblock %} | Restaurant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script defer src="{{ url_for('static', filename='app.js') }}"></script>
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="{{ url_for('index') }}"><span class="brand-mark">ভ</span><span><b>BHOJ</b><small>KOLKATA · SINCE 2026</small></span></a>
+  <button class="nav-toggle" aria-label="Toggle navigation" data-nav-toggle>☰</button>
+  <nav class="main-nav" data-nav>
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('menu') }}">Menu</a>
+    <a href="{{ url_for('reserve') }}">Reservations</a>
+    {% if logged_user and logged_user.role == 'customer' %}
+      <a href="{{ url_for('order') }}">Order Online</a><a href="{{ url_for('my_account') }}">My Account</a>
+    {% elif logged_user %}
+      <a href="{{ url_for('dashboard') }}">Dashboard</a>
+      {% if logged_user.role in ['admin','manager'] %}<a href="{{ url_for('manage_menu') }}">Manage Menu</a>{% endif %}
+      {% if logged_user.role in ['admin','manager','receptionist'] %}<a href="{{ url_for('manage_reservations') }}">Bookings</a>{% endif %}
+      {% if logged_user.role in ['admin','manager','kitchen','cashier'] %}<a href="{{ url_for('manage_orders') }}">Orders</a>{% endif %}
+      {% if logged_user.role in ['admin','manager'] %}<a href="{{ url_for('employees') }}">Employees</a>{% endif %}
+    {% endif %}
+  </nav>
+  <div class="header-actions">
+    {% if logged_user %}
+      <span class="user-chip">{{ logged_user.full_name }} <small>{{ role_labels[logged_user.role] }}</small></span>
+      <form method="post" action="{{ url_for('logout') }}"><button class="btn btn-outline btn-sm" type="submit">Sign out</button></form>
+    {% else %}
+      <a class="btn btn-outline btn-sm" href="{{ url_for('login') }}">Staff / Customer Login</a>
+    {% endif %}
+  </div>
+</header>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}<div class="flash-wrap">{% for category,message in messages %}<div class="flash flash-{{ category }}">{{ message }}<button type="button" data-dismiss>×</button></div>{% endfor %}</div>{% endif %}
+{% endwith %}
+<main>{% block content %}{% endblock %}</main>
+<footer class="footer">
+  <div class="footer-brand"><span class="brand-mark">ভ</span><div><b>BHOJ KOLKATA</b><p>Good food. Warm hearts. Kolkata soul.</p></div></div>
+  <div><b>Visit us</b><p>Central Kolkata, West Bengal</p><p>Open daily · 12 PM – 11 PM</p></div>
+  <div><b>Explore</b><p><a href="{{ url_for('menu') }}">Our menu</a></p><p><a href="{{ url_for('reserve') }}">Book a table</a></p></div>
+  <small class="copyright">© 2026 Bhoj Kolkata · Academic DBMS project demo</small>
+</footer>
+</body>
+</html>

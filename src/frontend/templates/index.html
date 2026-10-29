@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-copy">
+    <span class="eyebrow"><i></i> A TASTE OF KOLKATA</span>
+    <h1>Tradition on<br>every <em>plate.</em></h1>
+    <p>From the mustard-kissed flavours of Bengal to the beloved streetside classics of Kolkata, come hungry and leave with a story.</p>
+    <div class="hero-actions"><a class="btn btn-primary" href="{{ url_for('menu') }}">Explore the menu <span>↗</span></a><a class="text-link" href="{{ url_for('reserve') }}">Reserve your table <span>→</span></a></div>
+    <div class="hero-proof"><div class="avatar-stack"><span>R</span><span>A</span><span>S</span></div><div><b>Made with care, served with love</b><small>Authentic flavours · Fresh ingredients</small></div></div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-photo"></div>
+    <div class="photo-label"><span class="label-icon">✳</span><span><b>The Bengali Table</b><small>Rooted in heritage</small></span></div>
+    <div class="round-stamp"><span>MADE IN</span><b>কলকাতা</b><span>WITH LOVE ✦</span></div>
+  </div>
+</section>
+<section class="trust-strip"><div><b>01</b><span>Authentic Bengali<br>recipes</span></div><div><b>02</b><span>Fresh, quality<br>ingredients</span></div><div><b>03</b><span>A warm Kolkata<br>welcome</span></div><div><b>04</b><span>Made for sharing<br>and celebrating</span></div></section>
+<section class="section section-menu">
+  <div class="section-heading"><div><span class="eyebrow">FROM OUR KITCHEN</span><h2>Some of our <em>favourites</em></h2></div><a class="text-link" href="{{ url_for('menu') }}">View full menu →</a></div>
+  <div class="food-grid">
+    {% for item in menu %}
+    <article class="food-card">
+      <div class="food-art art-{{ loop.index % 6 }}"><span class="food-number">0{{ loop.index }}</span><span class="food-emoji">{% if 'Fish' in item.name or 'Ilish' in item.name or 'Chingri' in item.name %}🐟{% elif 'Doi' in item.name or 'Rosogolla' in item.name %}🍮{% elif 'Tea' in item.name or 'Panna' in item.name %}🍹{% elif item.is_vegetarian %}🥬{% else %}🍛{% endif %}</span><span class="food-category">{{ item.category }}</span></div>
+      <div class="food-info"><div><h3>{{ item.name }}</h3><p>{{ item.description }}</p></div><b class="price">₹{{ "%.0f"|format(item.price) }}</b></div>
+    </article>
+    {% else %}<p>Menu is being prepared. Please check back soon.</p>{% endfor %}
+  </div>
+</section>
+<section class="reservation-band"><div><span class="eyebrow">YOUR TABLE IS WAITING</span><h2>Make room for<br><em>something lovely.</em></h2><p>Good food tastes even better together. Save your spot at Bhoj.</p></div><a href="{{ url_for('reserve') }}" class="btn btn-light">Book a table <span>↗</span></a><div class="band-decoration">ভোজ</div></section>
+<section class="story-section"><div class="story-art"><div class="story-circle">ভ</div><span class="story-note">A little Kolkata<br>on every plate.</span></div><div class="story-copy"><span class="eyebrow">OUR LITTLE STORY</span><h2>Not just a meal.<br><em>A feeling.</em></h2><p>Bhoj celebrates the food that brings people together: recipes passed around family tables, flavours found in the lanes of Kolkata, and the simple joy of sharing one more bite.</p><p>Come for the classics. Stay for the warmth.</p><a class="text-link" href="{{ url_for('menu') }}">Find your favourite dish →</a></div></section>
+{% endblock %}

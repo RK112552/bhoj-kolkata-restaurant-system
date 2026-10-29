@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Employees{% endblock %}
+{% block content %}
+<section class="dashboard-top"><div><span class="eyebrow">THE PEOPLE BEHIND BHOJ</span><h1>Team <em>directory.</em></h1><p>View staff roles and access status. Only administrators can enable or disable staff logins.</p></div></section>
+<section class="section"><div class="panel"><div class="table-scroll"><table><thead><tr><th>Name</th><th>Username</th><th>Role</th><th>Phone</th><th>Access</th>{% if logged_user.role=='admin' %}<th>Action</th>{% endif %}</tr></thead><tbody>{% for e in employees %}<tr><td>{{ e.full_name }}</td><td>{{ e.username }}</td><td>{{ e.role_title }}</td><td>{{ e.phone or '—' }}</td><td>{{ 'Active' if e.active else 'Disabled' }}</td>{% if logged_user.role=='admin' %}<td><form method="post" action="{{ url_for('toggle_employee',eid=e.id) }}"><button class="btn btn-outline btn-sm">{{ 'Disable' if e.active else 'Enable' }}</button></form></td>{% endif %}</tr>{% endfor %}</tbody></table></div></div></section>
+{% endblock %}

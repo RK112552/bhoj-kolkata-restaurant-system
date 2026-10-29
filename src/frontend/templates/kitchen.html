@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Kitchen Display{% endblock %}
+{% block content %}
+<section class="dashboard-top"><div><span class="eyebrow">KITCHEN DISPLAY</span><h1>On the <em>pass.</em></h1><p>Update each order as it moves through preparation.</p></div><span class="role-pill">Kitchen Staff</span></section>
+<section class="section kitchen-grid">{% for o in orders %}<article class="kitchen-ticket"><div class="ticket-head"><span>ORDER #{{ o.id }}</span><span class="status status-{{ o.status }}">{{ o.status }}</span></div><h2>{{ o.order_type|replace('_',' ')|title }}</h2><p>Received {{ o.created_at }}</p><b class="ticket-total">₹{{ "%.2f"|format(o.total_amount) }}</b><form method="post" action="{{ url_for('order_status',oid=o.id) }}"><label>Update status<select name="status">{% for s in ['confirmed','preparing','ready','served'] %}<option value="{{ s }}" {% if o.status==s %}selected{% endif %}>{{ s|title }}</option>{% endfor %}</select></label><button class="btn btn-primary btn-full">Send update</button></form></article>{% else %}<div class="empty-state"><h2>All caught up.</h2><p>There are no active kitchen tickets.</p></div>{% endfor %}</section>
+{% endblock %}

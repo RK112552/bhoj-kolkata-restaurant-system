@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Order Online{% endblock %}
+{% block content %}
+<section class="page-hero"><span class="eyebrow">A LITTLE BHOJ AT HOME</span><h1>Order <em>online.</em></h1><p>Choose your favourites. This academic demo records the order and generates a bill.</p></section>
+<section class="section order-section"><form method="post"><div class="order-list">{% for item in items %}<div class="order-row"><div class="mini-food">🍽</div><div class="order-name"><b>{{ item.name }}</b><small>₹{{ "%.2f"|format(item.price) }} each</small></div><label class="qty-control">Qty <input type="number" min="0" max="20" value="0" name="qty_{{ item.id }}"></label></div>{% endfor %}</div><div class="order-submit"><p>Tax is calculated at 5% for demonstration. Payment is recorded separately by cashier.</p><button class="btn btn-primary" type="submit">Place order →</button></div></form></section>
+{% endblock %}

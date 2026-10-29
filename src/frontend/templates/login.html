@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Sign in{% endblock %}
+{% block content %}
+<section class="auth-layout"><div class="auth-art"><span class="eyebrow">WELCOME TO BHOJ</span><h2>Come on in.<br><em>Your table is ready.</em></h2><p>One place for reservations, orders and the people who make it all happen.</p><span class="auth-motif">ভোজ</span></div><div class="auth-form-wrap"><form class="auth-form" method="post"><span class="eyebrow">YOUR ACCOUNT</span><h1>Sign <em>in.</em></h1><p>Use your assigned demo credentials to continue.</p><label>Username<input name="username" autocomplete="username" required placeholder="e.g. customer"></label><label>Password<input type="password" name="password" autocomplete="current-password" required placeholder="Enter password"></label><button class="btn btn-primary btn-full" type="submit">Sign in securely →</button><div class="form-foot">Customer? You can browse the menu and request a reservation without signing in.</div></form></div></section>
+{% endblock %}

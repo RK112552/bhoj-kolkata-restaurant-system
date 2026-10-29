@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Cashier{% endblock %}
+{% block content %}
+<section class="dashboard-top"><div><span class="eyebrow">BILLING DESK</span><h1>Clear bills, <em>happy guests.</em></h1><p>Record demo payments and keep order billing status up to date.</p></div><span class="role-pill">Cashier</span></section>
+<section class="section"><div class="panel"><div class="table-scroll"><table><thead><tr><th>Order</th><th>Placed</th><th>Order status</th><th>Total</th><th>Bill</th><th>Payment action</th></tr></thead><tbody>{% for o in orders %}<tr><td>#{{ o.id }}</td><td>{{ o.created_at }}</td><td>{{ o.status }}</td><td>₹{{ "%.2f"|format(o.bill_total or o.total_amount) }}</td><td>{{ o.bill_status or 'not generated' }}</td><td>{% if o.bill_id and o.bill_status!='paid' %}<form method="post" action="{{ url_for('record_payment',bill_id=o.bill_id) }}" class="inline-form"><select name="method"><option value="cash">Cash</option><option value="upi">UPI (demo)</option><option value="card">Card (demo)</option></select><button class="btn btn-primary btn-sm">Mark paid</button></form>{% elif o.bill_status=='paid' %}<span class="status status-completed">Paid</span>{% else %}No bill{% endif %}</td></tr>{% endfor %}</tbody></table></div><p class="muted-note">Demo only: marking paid does not charge any real payment method.</p></div></section>
+{% endblock %}
